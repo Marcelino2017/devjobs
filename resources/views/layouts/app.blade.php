@@ -40,11 +40,9 @@
                                 <a class="text-white no-underline hover:underline hover:text-gray-300" href="{{ route('register') }}">{{ __('Register') }}</a>
                             @endif
                         @else
-                            
-                            
+                                               
                             <span class="text-gray-300 text-sm pr-4"> {{ Auth::user()->name }} </span>
                             
-
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="no-underline hover:underline text-gray-300 text-sm p-3" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
@@ -52,7 +50,7 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none no-underline text-right hover:underline">
                                     @csrf
                                 </form>
                             </div>

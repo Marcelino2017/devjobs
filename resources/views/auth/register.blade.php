@@ -62,7 +62,7 @@
 
                         <div class="flex flex-wrap mb-6">
                             
-                                <button type="submit" class="order-1 bg-teal-500 w-full hover:bg-teal-700 text-gray-100 p-3 focus:outline-none focus:shadow-outline uppercase font-bold">
+                                <button type="submit" class="bg-teal-500 w-full hover:bg-teal-700 text-gray-100 p-3 focus:outline-none focus:shadow-outline uppercase font-bold">
                                     {{ __('Register') }}
                                 </button>
                             
