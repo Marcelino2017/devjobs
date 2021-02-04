@@ -2,6 +2,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/css/medium-editor.min.css" integrity="sha512-zYqhQjtcNMt8/h4RJallhYRev/et7+k/HDyry20li5fWSJYSExP9O07Ung28MUuXDneIFg0f2/U3HJZWsTNAiw==" crossorigin="anonymous" />
+    {{-- Dropzone --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" integrity="sha512-3g+prZHHfmnvE1HBLwUnVuunaPOob7dpksI7/v6UnF/rnKGwHf/GdEq9K7iEN7qTtW+S0iivTcGpeTBqqB04wA==" crossorigin="anonymous" />
 @endsection
 
 @section('navegacion')
@@ -76,13 +78,19 @@
                 @endforeach
             </select>
         </div>
-
+        
         <div class="mb-5">  
             <label for="descripcion" class="block text-gray-700 text-sm mb-2">Drescipción del Puesto :</label>
             <div class="editable p-3 bg-gray-100 rounded form-input w-full text-gray-700"></div>
 
             <input type="hidden" name="descripcion" id="descripcion">
-        </div>  
+        </div> 
+        
+        <div class="mb-5">  
+            <label for="descripcion" class="block text-gray-700 text-sm mb-2">Imagen Vacante:</label>
+            <div id="dropzoneDevJobs" class="dropzone rounded bg-gray-100"></div>
+        </div> 
+
         <button type="submit" class="bg-teal-500 w-full hover:bg-teal-600 text-gray-100 font-bold p-3 focus:outline focus:shadow-outline uppercase">
             Pubicar Vacante
         </button>
@@ -93,18 +101,34 @@
 
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/js/medium-editor.js" integrity="sha512-aCPwYkaP9S5CeLKGxJDPs1soJuQd+Dza60RzTsXRDzexppY0U25fSyCuPlOo8HH9kIuVS6uSunEMI4OG96+4gg==" crossorigin="anonymous"></script>
 
-    <script>
+    {{-- Editor MediumEditor --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/js/medium-editor.js" integrity="sha512-aCPwYkaP9S5CeLKGxJDPs1soJuQd+Dza60RzTsXRDzexppY0U25fSyCuPlOo8HH9kIuVS6uSunEMI4OG96+4gg==" crossorigin="anonymous"></script>
+    
+    {{-- Drozpne imagen --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js" integrity="sha512-9WciDs0XP20sojTJ9E7mChDXy6pcO0qHpwbEJID1YVavz2H6QBz5eLoDD8lseZOb2yGT8xDNIV7HIe1ZbuiDWg==" crossorigin="anonymous"></script>
+    
+    <script >
         document.addEventListener('DOMContentLoaded', ()=>{
+            Dropzone.autoDiscover = false;
+            //Medium Editor
             const editor = new MediumEditor('.editable', {
                 toolbar : {
-                    buttons: [  'bold', 'italic', 'underline', 
-                                'quote', 'anchor', 'justifyLeft', 
-                                'justifyCenter', 'justifyRight', 
-                                'justifyFull', 'orderedList', 
-                                'unorderedList', 'h2', 'h3'
-                            ],
+                    buttons: [  
+                        'bold', 
+                        'italic', 
+                        'underline', 
+                        'quote', 
+                        'anchor',
+                        'justifyLeft', 
+                        'justifyCenter',
+                        'justifyRight', 
+                        'justifyFull',
+                        'orderedList', 
+                        'unorderedList',
+                        'h2', 
+                        'h3'
+                    ],
                     static: true,
                     sticky: true,
                 },
@@ -116,7 +140,18 @@
             editor.subscribe('editableInput', function (eventObj, editable) {
                 const contenido = editor.getContent();
                 document.querySelector('#descripcion').value = contenido;
-            })
+            });
+
+            //Dropzone
+            const dropzoneDevJobs = new Dropzone('#dropzoneDevJobs',{
+                url: "/vacantes/imagen",
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                },
+                success: function (file, response) {
+                    console.log(response);
+                }
+            });
         });
     </script>
 @endsection

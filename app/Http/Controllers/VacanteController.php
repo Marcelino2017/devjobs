@@ -100,4 +100,9 @@ class VacanteController extends Controller
     {
         //
     }
+
+    public function imagen(Request $request)
+    {
+        return 'imagensubiendo..' ;
+    }
 }
