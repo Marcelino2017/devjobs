@@ -3,7 +3,7 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/css/medium-editor.min.css" integrity="sha512-zYqhQjtcNMt8/h4RJallhYRev/et7+k/HDyry20li5fWSJYSExP9O07Ung28MUuXDneIFg0f2/U3HJZWsTNAiw==" crossorigin="anonymous" />
     {{-- Dropzone --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" integrity="sha512-3g+prZHHfmnvE1HBLwUnVuunaPOob7dpksI7/v6UnF/rnKGwHf/GdEq9K7iEN7qTtW+S0iivTcGpeTBqqB04wA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css" integrity="sha256-NkyhTCRnLQ7iMv7F3TQWjVq25kLnjhbKEVPqGJBcCUg=" crossorigin="anonymous" />
 @endsection
 
 @section('navegacion')
@@ -13,7 +13,9 @@
 @section('content')
     <h1 class="text-2xl text-center mt-10">Nueva Vacantes</h1>
 
-    <form class="max-w-lg mx-auto my-10" action="" method="post">
+    <form action=""
+          method="POST"
+          class="max-w-lg mx-auto my-10">
         <div class="mb-5">
             <label for="titulo" class="block text-gray-700 text-sm mb-2">Titulo Vacante:</label>
             <input id="titulo" type="text" class="p-3 bg-white-100 rounded form-input w-full @error('email') border-red-100 border @enderror" name="titulo" autocomplete="email" autofocus>
@@ -106,11 +108,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/js/medium-editor.js" integrity="sha512-aCPwYkaP9S5CeLKGxJDPs1soJuQd+Dza60RzTsXRDzexppY0U25fSyCuPlOo8HH9kIuVS6uSunEMI4OG96+4gg==" crossorigin="anonymous"></script>
     
     {{-- Drozpne imagen --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js" integrity="sha512-9WciDs0XP20sojTJ9E7mChDXy6pcO0qHpwbEJID1YVavz2H6QBz5eLoDD8lseZOb2yGT8xDNIV7HIe1ZbuiDWg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js" integrity="sha256-OG/103wXh6XINV06JTPspzNgKNa/jnP1LjPP5Y3XQDY=" crossorigin="anonymous"></script>
     
     <script >
         document.addEventListener('DOMContentLoaded', ()=>{
-            Dropzone.autoDiscover = false;
             //Medium Editor
             const editor = new MediumEditor('.editable', {
                 toolbar : {
@@ -142,9 +143,18 @@
                 document.querySelector('#descripcion').value = contenido;
             });
 
-            //Dropzone
+
+        });
+
+        //Dropzone
+        Dropzone.autoDiscover = false;
             const dropzoneDevJobs = new Dropzone('#dropzoneDevJobs',{
-                url: "/vacantes/imagen",
+                url: '/vacantes/imagen',
+                dictDefaultMessage: 'Sube aquí tu archivo',
+                acceptedFiles: ".png,.jpg,.jpeg,.gif,.bmp",
+                addRemoveLinks: true,
+                dictRemoveFile: 'Borrar Archivo',
+                maxFiles: 1,
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
                 },
@@ -152,6 +162,5 @@
                     console.log(response);
                 }
             });
-        });
     </script>
 @endsection
